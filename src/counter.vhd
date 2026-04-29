@@ -30,7 +30,7 @@ entity counter is
 			Q: out unsigned (N-1 downto 0));
 end counter;
 
-architecture behavior of lec10 is
+architecture behavior of counter is
 	
 	signal processQ: unsigned (N-1 downto 0);
 

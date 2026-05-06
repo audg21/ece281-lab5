@@ -6,10 +6,10 @@ library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
 entity ripple_adder is
-    Port ( A : in STD_LOGIC_VECTOR (3 downto 0);
-           B : in STD_LOGIC_VECTOR (3 downto 0);
+    Port ( A : in STD_LOGIC_VECTOR (7 downto 0);
+           B : in STD_LOGIC_VECTOR (7 downto 0);
            Cin : in STD_LOGIC;
-           S : out STD_LOGIC_VECTOR (3 downto 0);
+           S : out STD_LOGIC_VECTOR (7 downto 0);
            Cout : out STD_LOGIC);
 end ripple_adder;
 
@@ -25,7 +25,7 @@ architecture Behavioral of ripple_adder is
             );
         end component full_adder;
     -- Declare signals here
-    signal w_carry  : STD_LOGIC_VECTOR(2 downto 0); -- for ripple between adders
+    signal w_carry  : STD_LOGIC_VECTOR(6 downto 0); -- for ripple between adders
 
 begin
 
@@ -61,6 +61,42 @@ full_adder_0: full_adder
         B     => B(3),
         Cin   => w_carry(2),
         S     => S(3),
+        Cout  => w_carry(3)
+    );
+    
+    full_adder_4: full_adder
+    port map(
+        A     => A(4),
+        B     => B(4),
+        Cin   => w_carry(3),
+        S     => S(4),
+        Cout  => w_carry(4)
+    );
+    
+    full_adder_5: full_adder
+    port map(
+        A     => A(5),
+        B     => B(5),
+        Cin   => w_carry(4),
+        S     => S(5),
+        Cout  => w_carry(5)
+    );
+    
+    full_adder_6: full_adder
+    port map(
+        A     => A(6),
+        B     => B(6),
+        Cin   => w_carry(5),
+        S     => S(6),
+        Cout  => w_carry(6)
+    );
+    
+    full_adder_7: full_adder
+    port map(
+        A     => A(7),
+        B     => B(7),
+        Cin   => w_carry(6),
+        S     => S(7),
         Cout  => Cout
     );
     

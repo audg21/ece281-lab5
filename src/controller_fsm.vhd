@@ -38,8 +38,32 @@ entity controller_fsm is
 end controller_fsm;
 
 architecture FSM of controller_fsm is
+    
+    type fsm_state is (clrdis, regA, regB, result);
+    
+    signal f_Q, f_Q_next : fsm_state;
 
 begin
 
-
+f_Q_next <= regA when (f_Q = clrdis) else
+            regB when (f_Q = regA) else
+            result when (f_Q = regB) else
+            clrdis when (f_Q = result);
+            
+with f_Q select
+    o_cycle <= "0001" when clrdis,
+               "0010" when regA,
+               "0100" when regB,
+               "1000" when result;
+       
+-- process
+process (i_adv) 
+    begin
+        if i_reset = '1' then 
+            f_Q <= clrdis;
+        elsif rising_edge(i_adv) then
+			f_Q <= f_Q_next;
+		end if;
+	end process;
+	  
 end FSM;
